@@ -5,38 +5,36 @@ import { BonusCalculator } from "./bonus-calculator.services";
 @Injectable({ providedIn: 'root' })
 export class BankAccount {
 
-
-
     private balance = signal(0);
 
-    constructor(private bonusCalcualtor: BonusCalculator) {
+    constructor(private bonusCalculator: BonusCalculator) {
         let savedBalance = localStorage.getItem('balance');
         if (savedBalance != null) {
-            this.balance.set(parseFloat(savedBalance))
+            this.balance.set(parseFloat(savedBalance));
         }
         effect(() => {
-            localStorage.setItem('balance', this.balance().toString())
+
+            localStorage.setItem('balance', this.balance().toString());
         })
     }
-
 
     getBalance() {
         return this.balance.asReadonly();
     }
 
 
-
-
     makeDeposit(amount: number) {
         // send it to an API,
         // calculate a bonus
-        let bonus = this.bonusCalcualtor.calculateBonusForDepositOn(this.balance(), amount)
+        let bonus = this.bonusCalculator.calculateBonusForDepositOn(this.balance(), amount);
         this.balance.set(this.balance() + amount + bonus);
+
     }
 
-
-
     makeWithdrawal(amount: number) {
+        if (amount > this.balance()) {
+            throw new Error('Overdraft!');
+        }
         this.balance.set(this.balance() - amount);
     }
 }

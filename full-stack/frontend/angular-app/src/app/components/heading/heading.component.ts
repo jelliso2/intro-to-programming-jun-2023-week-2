@@ -5,7 +5,7 @@ import { BankAccount } from 'src/app/services/bank-account.services';
 @Component({
   selector: 'app-heading',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule],
   templateUrl: './heading.component.html',
   styleUrls: ['./heading.component.css']
 })
