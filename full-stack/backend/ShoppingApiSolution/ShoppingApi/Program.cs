@@ -1,4 +1,8 @@
 using ShoppingApi.Controllers;
+using ShoppingApi.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using ShoppingApi.Controllers.ShoppingList;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<ILookupTheStatus, StatusLookup>();
+var shoppingConnectionString = builder.Configuration.GetConnectionString("shopping") ?? throw new Exception("No Connection String for Shopping");
+
+builder.Services.AddDbContext<ShoppingDataContext>(options =>
+{
+    options.UseNpgsql(shoppingConnectionString);
+});
+
+builder.Services.AddScoped<ILookupTheStatus, StatusLookup>();
+builder.Services.AddScoped<IManageTheShoppingList, PostgresShoppingManager>();
 
 var app = builder.Build();
 
