@@ -18,7 +18,28 @@ public class PostgresShoppingManager : IManageTheShoppingList
         _context = context;
     }
 
+    public async Task<ShoppingListItemModel> AddItemAsync(ShoppingListItemCreateModel model)
+    {
 
+        var entityToAdd = new ShoppingListEntity
+        {
+            DateAdded = DateTime.UtcNow,
+            Description = model.Description,
+            Purchased = false,
+        };
+        _context.ShoppingList.Add(entityToAdd);
+
+        await _context.SaveChangesAsync();
+
+        var response = new ShoppingListItemModel
+        {
+            Id = entityToAdd.Id.ToString(),
+            Purchased = entityToAdd.Purchased,
+            Description = entityToAdd.Description,
+        };
+
+        return response;
+    }
 
     public async Task<CollectionResponse<ShoppingListItemModel>> GetShoppingListAsync()
     {
