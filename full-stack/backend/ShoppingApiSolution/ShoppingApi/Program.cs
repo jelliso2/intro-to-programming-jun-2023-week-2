@@ -1,8 +1,8 @@
-using ShoppingApi.Controllers;
-using ShoppingApi.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using ShoppingApi.Controllers;
 using ShoppingApi.Controllers.ShoppingList;
+using ShoppingApi.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseAuthorization();
 

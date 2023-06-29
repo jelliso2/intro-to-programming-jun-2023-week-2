@@ -40,6 +40,7 @@ public class StatusLookup : ILookupTheStatus
 
         }
 
+        // Mapping - copying from one thing to another.
         var response = new GetStatusResponse
         {
             Message = savedStatus!.Message,
