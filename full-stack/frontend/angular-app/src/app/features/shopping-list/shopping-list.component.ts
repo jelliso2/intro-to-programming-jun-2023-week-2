@@ -4,6 +4,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ShoppingListItemModel } from './models/model';
 import { CreateComponent } from './components/create/create.component';
 import { ListComponent } from './components/list/list.component';
+import { Store } from '@ngrx/store';
+import { ShoppingFeatureEvents } from './state/feature.actions';
 
 @Component({
   selector: 'app-shopping-list',
@@ -20,6 +22,10 @@ import { ListComponent } from './components/list/list.component';
   ],
 })
 export class ShoppingListComponent {
+  constructor(private store: Store) {
+    store.dispatch(ShoppingFeatureEvents.entered());
+  }
+
   shoppingList = signal([
     { id: '1', description: 'Shampoo', purchased: false },
     { id: '2', description: 'Lettuce', purchased: true },
